@@ -1,3 +1,4 @@
+const{body, validationResult} = require('express-validator')
 
 // like mongo
 const { log } = require('console');
@@ -27,8 +28,14 @@ module.exports = (app) => {
         // drop database
         // db.remove({}, { multi: true }, function (err, numRemoved) {});
     });
-    route.post((req,res)=>{
-             
+    
+    route.post(body('email').isEmail,(req,res)=>{
+                        
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(400).json({errors:errors.array()})
+            }
+
         db.insert(req.body,(err,user)=>{
             if(err){
                 app.utils.error.send(err,req,res);
@@ -52,8 +59,17 @@ module.exports = (app) => {
         });
     });
     
-    routeID.put((req,res)=>{
+    routeID.put(body('name').isEmpty(),
+        body('email').isEmail(),
+        body('password').isEmpty(),
+        (req,res)=>{
         
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors:errors.array()})
+        }
+
+
         db.update({_id:req.params.id},req.body,err =>{
         
             if(err){
