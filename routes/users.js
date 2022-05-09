@@ -8,29 +8,30 @@ let db = new NeDB({
 });
 
 module.exports = (app) => {
-    app.get('/users',(req,res)=>{
-        console.log('url: ', req.url);
     
-        console.log('method: ', req.method);
-    
-        res.statusCode = 200;
-        res.setHeader('Content-type', 'text/html');
-        res.json({
-            users:{
-                name:'Algo',
-                    email:'ehhe',
-                id:'exatamente'
+    let route =  app.route('/users');
+
+    route.get((req,res)=>{
+
+        db.find({}).sort({name:1}).exec((err,users)=>{
+            if(err){
+                app.utils.error.send(err,req,res);
+            } else {
+                res.statusCode = 200;
+                res.setHeader('Content-type', 'text/html');
+                res.json({
+                    users
+                })
             }
-        })
+        });
+        // drop database
+        // db.remove({}, { multi: true }, function (err, numRemoved) {});
     });
-    app.post('/users',(req,res)=>{
+    route.post((req,res)=>{
              
         db.insert(req.body,(err,user)=>{
             if(err){
-                console.log(err);
-                res.status(400).json({
-                    error: err
-                });
+                app.utils.error.send(err,req,res);
             } else {
                 res.status(200).json(user);
             }
