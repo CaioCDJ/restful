@@ -29,8 +29,8 @@ module.exports = (app) => {
         // db.remove({}, { multi: true }, function (err, numRemoved) {});
     });
     
-    route.post([body('name').notEmpty().withMessage('campo obrigatorio'),
-        body('email').isEmail(),
+    route.post([body('_name').notEmpty().withMessage('campo obrigatorio'),
+        body('_email').isEmail().withMessage('email invalido'),
         body('password').notEmpty().withMessage('campo origatorio')],
         (req,res)=>{
                         
@@ -62,8 +62,8 @@ module.exports = (app) => {
         });
     });
     
-    routeID.put([body('name').notEmpty().withMessage('campo obrigatorio'),
-    body('email').isEmail(),
+    routeID.put([body('_name').notEmpty().withMessage('campo obrigatorio'),
+    body('_email').isEmail(),
     body('password').notEmpty().withMessage('campo origatorio')],
         (req,res)=>{
         
