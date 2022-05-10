@@ -29,7 +29,10 @@ module.exports = (app) => {
         // db.remove({}, { multi: true }, function (err, numRemoved) {});
     });
     
-    route.post(body('email').isEmail,(req,res)=>{
+    route.post([body('name').notEmpty().withMessage('campo obrigatorio'),
+        body('email').isEmail(),
+        body('password').notEmpty().withMessage('campo origatorio')],
+        (req,res)=>{
                         
             const errors = validationResult(req);
             if(!errors.isEmpty()){
@@ -59,9 +62,9 @@ module.exports = (app) => {
         });
     });
     
-    routeID.put(body('name').isEmpty(),
-        body('email').isEmail(),
-        body('password').isEmpty(),
+    routeID.put([body('name').notEmpty().withMessage('campo obrigatorio'),
+    body('email').isEmail(),
+    body('password').notEmpty().withMessage('campo origatorio')],
         (req,res)=>{
         
         const errors = validationResult(req);

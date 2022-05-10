@@ -1,3 +1,8 @@
+/*
+    -- VALIDACAO OBSOLETA --
+*/ 
+
+
 const { body } = require("express-validator")
 
 module.exports = {
