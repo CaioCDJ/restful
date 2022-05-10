@@ -31,7 +31,7 @@ module.exports = (app) => {
     
     route.post([body('_name').notEmpty().withMessage('campo obrigatorio'),
         body('_email').isEmail().withMessage('email invalido'),
-        body('password').notEmpty().withMessage('campo origatorio')],
+        body('_password').notEmpty().withMessage('campo origatorio')],
         (req,res)=>{
                         
             const errors = validationResult(req);
@@ -64,7 +64,7 @@ module.exports = (app) => {
     
     routeID.put([body('_name').notEmpty().withMessage('campo obrigatorio'),
     body('_email').isEmail(),
-    body('password').notEmpty().withMessage('campo origatorio')],
+    body('_password').notEmpty().withMessage('campo origatorio')],
         (req,res)=>{
         
         const errors = validationResult(req);
